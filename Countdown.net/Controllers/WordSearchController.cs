@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Countdown.net.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -55,11 +57,14 @@ namespace Countdown.net.Controllers
 
         // GET: api/WordSearch/DOOF
         [HttpGet("{letters}")]
-        public IEnumerable<string> SearchFordWords(string letters)
+        public WordSearchResultDto SearchFordWords(string letters)
         {
+            Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+
             WordCount wc = new WordCount(letters);
             var words = Words;
-            List<string> output = new List<string>();
+            List<string> matchList = new List<string>();
             foreach (WordCount wordCount in Words.Values)
             {
                 bool matched = true;
@@ -74,9 +79,15 @@ namespace Countdown.net.Controllers
 
                 if (matched)
                 {
-                    output.Add(wordCount.TheWord);
+                    matchList.Add(wordCount.TheWord);
                 }
             }
+
+            WordSearchResultDto output = new WordSearchResultDto();
+            output.Words = matchList.Select(s => new IndividualWordResultDto(s)).OrderByDescending(s => s.Length);
+
+            watch.Stop();
+            output.TimeTaken = watch.ElapsedMilliseconds;
 
             return output;
         }
