@@ -16,12 +16,13 @@ namespace Countdown.net.Controllers
     {
         private readonly Dictionary<string, WordCount> Words = new Dictionary<string, WordCount>();
 
-        private readonly string wordListUrl = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
+        public CountdownSettings CountdownSettings { get; set; }
 
-
-        public WordSearchController()
+        public WordSearchController(CountdownSettings countdownSettings)
         {
-            WebRequest request = WebRequest.Create(wordListUrl);
+            CountdownSettings = countdownSettings;
+
+            WebRequest request = WebRequest.Create(CountdownSettings.WordListUrl);
 
             WebResponse response = request.GetResponse();
 
@@ -33,7 +34,7 @@ namespace Countdown.net.Controllers
                 while ((line = reader.ReadLine()) != null)
                 {
                     string word = line.Trim();
-                    if (word.Length > 3 && word.Length < 10)
+                    if (word.Length >= CountdownSettings.MinimumWordSize && word.Length <= CountdownSettings.MaximumWordSize)
                     {
                         Words.Add(word, new WordCount(word));
 
@@ -54,15 +55,9 @@ namespace Countdown.net.Controllers
             return Words.Keys;
         }
 
-
-        // GET: api/WordSearch/DOOF
-        [HttpGet("{letters}")]
-        public WordSearchResultDto SearchFordWords(string letters)
+        private IEnumerable<string> SearchForWords(WordCount wc)
         {
-            Stopwatch watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
-
-            WordCount wc = new WordCount(letters);
+            
             var words = Words;
             List<string> matchList = new List<string>();
             foreach (WordCount wordCount in Words.Values)
@@ -83,9 +78,28 @@ namespace Countdown.net.Controllers
                 }
             }
 
-            WordSearchResultDto output = new WordSearchResultDto();
-            output.Words = matchList.Select(s => new IndividualWordResultDto(s)).OrderByDescending(s => s.Length);
+            return matchList;
 
+        }
+
+        // GET: api/WordSearch/DOOF
+        //[HttpGet("{letters}")]
+        public WordSearchResultDto SearchForWords(string letters)
+        {
+            Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+            WordSearchResultDto output = new WordSearchResultDto();
+
+            if (letters == null || letters.Length < 4)
+            {
+                output.Words = Enumerable.Empty<IndividualWordResultDto>();
+            }
+            else
+            {
+                output.Words = SearchForWords(new WordCount(letters)).Select(s => new IndividualWordResultDto(s)).OrderByDescending(s => s.Length);
+            }
+
+            
             watch.Stop();
             output.TimeTaken = watch.ElapsedMilliseconds;
 
