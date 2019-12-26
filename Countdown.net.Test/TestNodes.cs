@@ -57,5 +57,15 @@ namespace Countdown.net.Test
             }
             
         }
+
+        [Fact]
+        public void TestZeros()
+        {
+            int leftNumber = 10;
+            int rightNumber = 0;
+            CalculationNode calculationNode = new CalculationNode(GetIntegerNode(leftNumber), GetIntegerNode(rightNumber), Operator.Divide);
+            Assert.False(calculationNode.GivesIntegerResult);
+
+        }
     }
 }

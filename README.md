@@ -72,15 +72,15 @@ An IntegerNode contains just an integer number. A CalculationNode contains two N
 The result of any calculation node MUST itself be an integer - it is an invalid node if it results in a non-integer number. So for instance, the following calculation node would be invalid:
 ```json
 {
-    leftNode: 3,
-    rightNode: 2,
-    operator: "DIVIDE"
+    "leftNode": 3,
+    "rightNode": 2,
+    "operator": "Divide"
 }
 ```
 
 The algorithm for finding the solution is as follows:
 
-1. The NumbersSolvedController takes in a list of numbers, the first of which is the target. For example, 100,10,6,3.
+1. The NumbersSolverController takes in a list of numbers, the first of which is the target. For example, 100,10,6,3.
 2. After chopping the target, the remaining numbers are converted into an enumerable of all permutations (in this case, 3,6,10 , 3,10,6 , 6,3,10 , 6,10,3 , 10,3,6 , 10,6,3).
 3. Each permutation is taken in turn, and a method is called recursively: if the count of numbers passed in is 1, then a single Integer node is given back. If more than one number is passed in, then the first number is combined with every type of operator and the remaining list.
 4. This results in a set of node trees (calculations) per pemutation of the input list. This list of sets is then ordered by closeness to the target, and then by complexity.

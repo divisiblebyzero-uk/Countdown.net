@@ -10,16 +10,26 @@ namespace Countdown.net.Test
 {
     public class TestNumbersController
     {
-        NumbersController NumbersController = new NumbersController(TestsHelper.GetApplicationConfiguration());
+        private readonly NumbersController _numbersController = new NumbersController(TestsHelper.GetApplicationConfiguration());
 
         [Theory]
-        [InlineData("100,3,5,10", 1)]
-        public void TestBasicInput(string input, int minimumSolutions)
+        [InlineData("100,3,5,10", 1, 20)]
+        [InlineData("100,3,5,100", 1, 0)]
+        [InlineData("80,3,5,10", 1, 0)]
+        public void TestBasicInput(string input, int minimumSolutions, int minClosenessOfBestSolution)
         {
-            IEnumerable<NumbersSolution> solutions = NumbersController.SolveNumbers(input);
-            //Assert.NotNull(solutions);
+            IEnumerable<NumbersSolution> solutions = _numbersController.SolveNumbers(input);
+            Assert.NotNull(solutions);
             
-            //Assert.True(solutions.Count() >= minimumSolutions);
+            Assert.True(solutions.Count() >= minimumSolutions);
+
+            if (minimumSolutions > 0)
+            {
+                int closeness = solutions.First().Closeness;
+                Assert.True(minClosenessOfBestSolution >= solutions.First().Closeness);
+            }
         }
+
+        
     }
 }

@@ -39,6 +39,11 @@ namespace Countdown.net.Model
         {
             return 1;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 
     public class CalculationNode : INode
@@ -54,7 +59,7 @@ namespace Countdown.net.Model
             Left = left;
             Right = right;
             Operator = o;
-            GivesIntegerResult = Operator != Operator.Divide || (Left.CalculateValue() % Right.CalculateValue() == 0);
+            GivesIntegerResult = Operator != Operator.Divide || Right.CalculateValue() != 0 && (Left.CalculateValue() % Right.CalculateValue() == 0);
         }
 
         public int CalculateValue()
@@ -89,6 +94,11 @@ namespace Countdown.net.Model
         public int CalculateComplexity()
         {
             return 1 + Left.CalculateComplexity() + Right.CalculateComplexity();
+        }
+
+        public override string ToString()
+        {
+            return "(" + Left.ToString() + " " + Operator.ToString() +" " + Right.ToString() + ")";
         }
     }
 }

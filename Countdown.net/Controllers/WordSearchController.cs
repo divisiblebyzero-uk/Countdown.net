@@ -26,6 +26,17 @@ namespace Countdown.net.Controllers
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
+        private void CheckDownloaded()
+        {
+            if (!DownloadComplete)
+            {
+                System.Diagnostics.Debug.WriteLine("Words have not been downloaded, so doing that now");
+
+                DownloadWords();
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private  void DownloadWords()
         {
             System.Diagnostics.Debug.WriteLine("Beginning download");
@@ -54,22 +65,17 @@ namespace Countdown.net.Controllers
 
         // GET: api/WordSearch/
         [HttpGet()]
-        public IEnumerable<string> GetAllWordCounts()
+        public IEnumerable<string> GetAllWords()
         {
+            CheckDownloaded();
             return Words.Keys;
         }
 
         private IEnumerable<string> SearchForWords(WordCount wc)
         {
             System.Diagnostics.Debug.WriteLine($"Checking input {wc.TheWord}");
-            lock (this)
-            {
-                if (!DownloadComplete)
-                {
-                    System.Diagnostics.Debug.WriteLine("Words have not been downloaded, so doing that now");
-                    DownloadWords();
-                }
-            }
+            CheckDownloaded();
+
             var words = Words;
             List<string> matchList = new List<string>();
             foreach (WordCount wordCount in Words.Values)
