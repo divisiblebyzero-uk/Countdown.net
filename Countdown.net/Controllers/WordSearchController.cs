@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Countdown.net.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,35 +18,38 @@ namespace Countdown.net.Controllers
         private readonly Dictionary<string, WordCount> Words = new Dictionary<string, WordCount>();
 
         public CountdownSettings CountdownSettings { get; set; }
+        private bool DownloadComplete = false;
 
         public WordSearchController(CountdownSettings countdownSettings)
         {
             CountdownSettings = countdownSettings;
+        }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private  void DownloadWords()
+        {
+            System.Diagnostics.Debug.WriteLine("Beginning download");
             WebRequest request = WebRequest.Create(CountdownSettings.WordListUrl);
-
             WebResponse response = request.GetResponse();
 
             string line;
 
-            using (Stream dataStream = response.GetResponseStream())
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            while ((line = reader.ReadLine()) != null)
             {
-                StreamReader reader = new StreamReader(dataStream);
-                while ((line = reader.ReadLine()) != null)
+                string word = line.Trim();
+                if (word.Length >= CountdownSettings.MinimumWordSize && word.Length <= CountdownSettings.MaximumWordSize)
                 {
-                    string word = line.Trim();
-                    if (word.Length >= CountdownSettings.MinimumWordSize && word.Length <= CountdownSettings.MaximumWordSize)
-                    {
-                        Words.Add(word, new WordCount(word));
-
-                    }
+                    Words.Add(word, new WordCount(word));
 
                 }
+
             }
 
             response.Close();
+            DownloadComplete = true;
 
-            Console.WriteLine("Ready");
+            System.Diagnostics.Debug.WriteLine("Download complete");
         }
 
         // GET: api/WordSearch/
@@ -57,7 +61,15 @@ namespace Countdown.net.Controllers
 
         private IEnumerable<string> SearchForWords(WordCount wc)
         {
-            
+            System.Diagnostics.Debug.WriteLine($"Checking input {wc.TheWord}");
+            lock (this)
+            {
+                if (!DownloadComplete)
+                {
+                    System.Diagnostics.Debug.WriteLine("Words have not been downloaded, so doing that now");
+                    DownloadWords();
+                }
+            }
             var words = Words;
             List<string> matchList = new List<string>();
             foreach (WordCount wordCount in Words.Values)
@@ -83,7 +95,7 @@ namespace Countdown.net.Controllers
         }
 
         // GET: api/WordSearch/DOOF
-        //[HttpGet("{letters}")]
+        [HttpGet("{letters}")]
         public WordSearchResultDto SearchForWords(string letters)
         {
             Stopwatch watch = new System.Diagnostics.Stopwatch();
