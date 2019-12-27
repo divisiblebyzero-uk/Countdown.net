@@ -1,0 +1,14 @@
+<p>letters-game works!</p>
+
+<form (ngSubmit)="getSearchResults()">
+  <input type="text" [formControl]='letters' class="form-control" title="Enter the letters"/>
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+<table>
+  <tr *ngFor="let result of results.words">
+    <td>{{result.length}}</td>
+    <td>{{result.word}}</td>
+  </tr>
+</table>
+

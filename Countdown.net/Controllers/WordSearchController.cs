@@ -104,6 +104,7 @@ namespace Countdown.net.Controllers
         [HttpGet("{letters}")]
         public WordSearchResultDto SearchForWords(string letters)
         {
+            System.Diagnostics.Debug.WriteLine($"Searching for {letters}");
             Stopwatch watch = new System.Diagnostics.Stopwatch();
             watch.Start();
             WordSearchResultDto output = new WordSearchResultDto();
