@@ -15,8 +15,8 @@ namespace Countdown.net.Model
         public NumbersSolution(int target, INode node)
         {
             Target = target;
-            Actual = node.CalculateValue();
-            Complexity = node.CalculateComplexity();
+            Actual = node.Value;
+            Complexity = node.Complexity;
             Closeness = Math.Abs(Target - Actual);
             Solution = node.ToString();
         }

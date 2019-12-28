@@ -89,19 +89,19 @@ namespace Countdown.net.Controllers
                 case Operator.IgnoreRight:
                     return left;
                 case Operator.Times:
-                    if (left.CalculateValue() == 1)
+                    if (left.Value == 1)
                     {
                         return right;
                     }
 
-                    if (right.CalculateValue() == 1)
+                    if (right.Value == 1)
                     {
                         return left;
                     }
 
                     return CreateCalculationNode(left, right, o);
                 case Operator.Divide:
-                    if (right.CalculateValue() == 1)
+                    if (right.Value == 1)
                     {
                         return left;
                     }

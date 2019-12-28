@@ -16,8 +16,8 @@ namespace Countdown.net.Test
         public void TestIntegerNodes(int number)
         {
             INode node = new IntegerNode(number);
-            Assert.Equal(1, node.CalculateComplexity());
-            Assert.Equal(number, node.CalculateValue());
+            Assert.Equal(1, node.Complexity);
+            Assert.Equal(number, node.Value);
         }
 
         private INode GetIntegerNode(int number)
@@ -36,8 +36,8 @@ namespace Countdown.net.Test
         {
             int i = 10 / 5;
             INode node = new CalculationNode(GetIntegerNode(leftNumber), GetIntegerNode(rightNumber), o);
-            Assert.Equal(3, node.CalculateComplexity());
-            Assert.Equal(value, node.CalculateValue());
+            Assert.Equal(3, node.Complexity);
+            Assert.Equal(value, node.Value);
         }
 
         [Theory]
@@ -46,14 +46,14 @@ namespace Countdown.net.Test
         public void TestNonIntegerDivision(int left, int right, bool shouldThrowException)
         {
             INode node = new CalculationNode(GetIntegerNode(left), GetIntegerNode(right), Operator.Divide);
-            Assert.Equal(3, node.CalculateComplexity());
+            Assert.Equal(3, node.Complexity);
             if (shouldThrowException)
             {
-                Assert.Throws<InvalidOperationException>(() => node.CalculateValue());
+                Assert.Equal(-1, node.Value);
             }
             else
             {
-                node.CalculateValue();
+                Assert.NotEqual(-1, node.Value);
             }
             
         }
