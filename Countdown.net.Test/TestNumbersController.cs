@@ -16,9 +16,10 @@ namespace Countdown.net.Test
         [InlineData("100,3,5,10", 1, 20)]
         [InlineData("100,3,5,100", 1, 0)]
         [InlineData("80,3,5,10", 1, 0)]
+        [InlineData("100,3,5,100,1,2,3", 1, 0)]
         public void TestBasicInput(string input, int minimumSolutions, int minClosenessOfBestSolution)
         {
-            IEnumerable<NumbersSolution> solutions = _numbersController.SolveNumbers(input);
+            List<NumbersSolution> solutions = _numbersController.SolveNumbers(input).ToList();
             Assert.NotNull(solutions);
             
             Assert.True(solutions.Count() >= minimumSolutions);

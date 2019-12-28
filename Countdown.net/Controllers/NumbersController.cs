@@ -32,14 +32,15 @@ namespace Countdown.net.Controllers
             List<int> allNumbers = numbersString.Split(",").Select(Int32.Parse).ToList();
             int target = allNumbers.First();
             IEnumerable<int> numbers = allNumbers.Skip(1);
-            return GetSolutions(target, numbers).Take(10);
+            return GetSolutions(target, numbers).Distinct().Take(10);
         }
 
         private IEnumerable<NumbersSolution> GetSolutions(int target, IEnumerable<int> numbers)
         {
             List<INode> nodes = new List<INode>();
             CollectionsHelper collectionsHelper = new CollectionsHelper();
-            IEnumerable<IEnumerable<int>> permutations = collectionsHelper.Permute(numbers);
+            List<int> numbersList = numbers.ToList();
+            IEnumerable<IList<int>> permutations = collectionsHelper.Permute(numbersList, numbersList.Count);
 
             foreach (IEnumerable<int> permutation in permutations)
             {

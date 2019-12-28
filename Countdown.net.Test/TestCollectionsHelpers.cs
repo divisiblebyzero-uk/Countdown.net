@@ -11,17 +11,19 @@ namespace Countdown.net.Test
     {
         private CollectionsHelper Helper = new CollectionsHelper();
 
-        [Fact]
-        public void TestPermute()
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3 }, 6)]
+        [InlineData(new int[] { 1, 1, 1 }, 6)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6 }, 720)]
+
+        public void TestPermute(IEnumerable<int> input, int expectedCount)
         {
-            IEnumerable<int> input = new List<int>() {1,2,3};
-            IEnumerable<IEnumerable<int>> output = Helper.Permute(input, 3);
+//            IEnumerable<int> input = new List<int>() {1,2,3};
+            List<int> numbersList = input.ToList();
+            IEnumerable<IList<int>> output = Helper.Permute(numbersList, numbersList.Count);
 
-            Assert.True(output.Count() == 6);
+            Assert.True(output.Count() == expectedCount);
 
-            IEnumerable<IEnumerable<int>> distinctOutput = output.Distinct();
-
-            Assert.True(output.Count() == distinctOutput.Count());
 
         }
 
@@ -29,6 +31,7 @@ namespace Countdown.net.Test
         [InlineData(1, 1)]
         [InlineData(2, 2)]
         [InlineData(3, 6)]
+        [InlineData(6, 720)]
         [InlineData(10, 3628800)]
         public void TestFactorial(int input, int output)
         {

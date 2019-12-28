@@ -13,27 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Countdown.net.Test", "Countdown.net.Test\Countdown.net.Test.csproj", "{B25F0D31-5BC0-4783-930C-FDF4833CD8DC}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Countdown.Web", "Countdown.Web\", "{22F1BE69-952A-489E-A826-C226EF49E176}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50677"
-		Debug.AspNetCompiler.PhysicalPath = "Countdown.Web\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50677\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50677"
-		Release.AspNetCompiler.PhysicalPath = "Countdown.Web\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50677\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50677"
-		SlnRelativePath = "Countdown.Web\"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +27,6 @@ Global
 		{B25F0D31-5BC0-4783-930C-FDF4833CD8DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B25F0D31-5BC0-4783-930C-FDF4833CD8DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B25F0D31-5BC0-4783-930C-FDF4833CD8DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22F1BE69-952A-489E-A826-C226EF49E176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22F1BE69-952A-489E-A826-C226EF49E176}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22F1BE69-952A-489E-A826-C226EF49E176}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{22F1BE69-952A-489E-A826-C226EF49E176}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
