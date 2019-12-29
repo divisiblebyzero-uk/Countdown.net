@@ -15,8 +15,7 @@ namespace Countdown.net.Controllers
     [ApiController]
     public class NumbersController : ControllerBase
     {
-        private readonly Dictionary<string, WordCount> Words = new Dictionary<string, WordCount>();
-
+        
         public CountdownSettings CountdownSettings { get; set; }
 
         public NumbersController(CountdownSettings countdownSettings)
@@ -29,6 +28,7 @@ namespace Countdown.net.Controllers
         [HttpGet("{numbersString}")]
         public IEnumerable<NumbersSolution> SolveNumbers(string numbersString)
         {
+            System.Diagnostics.Debug.WriteLine("Attempting to solve: {0}", numbersString);
             List<int> allNumbers = numbersString.Split(",").Select(Int32.Parse).ToList();
             int target = allNumbers.First();
             IEnumerable<int> numbers = allNumbers.Skip(1);

@@ -34,7 +34,6 @@ namespace Countdown.net.Test
         [InlineData(10, 5, Operator.IgnoreRight, 10)]
         public void TestCalculationNodes(int leftNumber, int rightNumber, Operator o, int value)
         {
-            int i = 10 / 5;
             INode node = new CalculationNode(GetIntegerNode(leftNumber), GetIntegerNode(rightNumber), o);
             Assert.Equal(3, node.Complexity);
             Assert.Equal(value, node.Value);
@@ -65,7 +64,6 @@ namespace Countdown.net.Test
             int rightNumber = 0;
             CalculationNode calculationNode = new CalculationNode(GetIntegerNode(leftNumber), GetIntegerNode(rightNumber), Operator.Divide);
             Assert.False(calculationNode.GivesIntegerResult);
-
         }
     }
 }

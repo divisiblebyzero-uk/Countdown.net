@@ -9,7 +9,7 @@ namespace Countdown.net.Test
 {
     public class TestCollectionsHelpers
     {
-        private CollectionsHelper Helper = new CollectionsHelper();
+        private readonly CollectionsHelper Helper = new CollectionsHelper();
 
         [Theory]
         [InlineData(new int[] { 1, 2, 3 }, 6)]

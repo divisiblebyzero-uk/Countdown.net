@@ -76,7 +76,7 @@ namespace Countdown.net.Controllers
             System.Diagnostics.Debug.WriteLine($"Checking input {wc.TheWord}");
             CheckDownloaded();
 
-            var words = Words;
+            
             List<string> matchList = new List<string>();
             foreach (WordCount wordCount in Words.Values)
             {
